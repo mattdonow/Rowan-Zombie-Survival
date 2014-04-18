@@ -16,11 +16,13 @@ import viz
 import vizcam
 import vizact
 import viztask
+import Human
+import Items
 
 
 class Intro(viz.EventClass):
 	def __init__(self):
-		viz.go()
+		
 		viz.EventClass.__init__(self)
 		self.callback(viz.BUTTON_EVENT,self.onButton)
 		self.rowantext="""
@@ -66,11 +68,12 @@ GOOD LUCK. No pressure, just all of our lives depend on you
                              sensitivity=[1.0,1.0])
 
 		self.text_2D_world = viz.addText(self.rowantext,pos=[2, 2, 2])
-		self.myButton = viz.addButtonLabel('continue') #Add a button.
+		self.myButton = viz.addButtonLabel('continue',scene=1) #Add a button.
+	
 
 		self.myButton.setPosition(.5,.8) #Set its position. 
 		self.myButton.setScale(1,1) #Scale it. 
-
+		self.done=viztask.Signal()
 
 		
 	
@@ -80,11 +83,48 @@ GOOD LUCK. No pressure, just all of our lives depend on you
 	def onButton(self,obj,state):
 		if obj==self.myButton:
 			if state == viz.DOWN:
-				pass
-class CharacterCreation():
-	pass
+				self.done.send()
+class CharacterCreation(viz.EventClass):
+	def __init__(self):
+		
+		viz.EventClass.__init__(self)
+		self.done=viztask.Signal()
+		self.callback(viz.BUTTON_EVENT,self.onButton)
+		self.rowantext="""
+Charactor Creation
+Enter Your Charactor's name:
+"""
 
 
 
+		vizcam.PivotNavigate(center=[15,-10,0],
+
+                             distance=70,
+
+                             sensitivity=[1.0,1.0])
+
+		self.text_2D_world = viz.addText(self.rowantext,pos=[2, 2, 2],scene=2)
+		self.myButton2 = viz.addButtonLabel('Done!',scene=2) #Add a button.
+
+		self.myButton2.setPosition(.5,.5) #Set its position. 
+		self.myButton2.setScale(1,1) #Scale it. 
+
+		#Add a text box.
+		self.box = viz.addTextbox(scene=2)
+		#self.box.message('default')
+		#Make it twice as long.
+		self.box.length(2)
+		#Place it in window.
+		self.box.setPosition(.5,.8)
+		#Have it grow when text reaches its boundary.
+		self.box.overflow(viz.OVERFLOW_GROW) 
+
+
+	def onButton(self,obj,state):
+		if obj==self.myButton2:
+			if state == viz.DOWN:
+				name=self.box.get()
+				Human.Human(name=name,power=10,toughness=10,min=0,max=20,locationName='Atrium',item=Items.Item(name='None',description='', power=0, toughness=0))
+				self.done.send()
 
 

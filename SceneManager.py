@@ -12,11 +12,15 @@
 ##Dependencies: 
 ##License:
 ######################################################################
+import viz
 class SceneManager():
-	def __init__(self):
-		self.sceneDict={'Intro':1, 'Charactor':2}
-		self.currentScene='Intro'
+	def __init__(self,startScene='Intro'):
+		self._sceneDict={'Intro':1, 'Charactor':2}
+		self._currentScene=startScene
 	
 	def switchtoScene(self,sceneName):
-		self.currentScene=sceneName
-		viz.scene(self.sceneDict[sceneName])
+		self._currentScene=sceneName
+		viz.scene(self._sceneDict[sceneName])
+	def getCurrentScene(self):
+		return self._sceneDict[self._currentScene]
+	

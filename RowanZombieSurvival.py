@@ -13,18 +13,26 @@
 ##License:
 ######################################################################
 
+
+# Pound Includes
 import viz
 import pregame
 import SceneManager
 import viztask
+import Human
 viz.go()
 
+sceneManager=SceneManager.SceneManager()
+#Game
 def ZombieGame():
-			#Wait for a keypress.
-			Introduction=pregame.Intro()
-			yield viztask.waitButtonDown(Introduction.myButton)
-			print 'onto next'
-
+			
+			ActiveProgram=pregame.Intro() #Destructions info
+			
+			yield ActiveProgram.done.wait() #Wailt for intro screen to be done
+			sceneManager.switchtoScene('Charactor')
+			ActiveProgram=pregame.CharacterCreation()
+			yield ActiveProgram.done.wait() #Wailt for charactor creation to be done
+			
 			
 		#Schedule the task.
 viztask.schedule( ZombieGame() )
