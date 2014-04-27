@@ -20,21 +20,24 @@ import pregame
 import SceneManager
 import viztask
 import Human
+import GameWrap
+import vizcam
 viz.go()
 
 sceneManager=SceneManager.SceneManager()
 #Game
-def ZombieGame():
+#def ZombieGame():
 			
-			ActiveProgram=pregame.Intro() #Destructions info
+			#ActiveProgram=pregame.Intro() #Destructions info
 			
-			yield ActiveProgram.done.wait() #Wailt for intro screen to be done
-			sceneManager.switchtoScene('Charactor')
-			ActiveProgram=pregame.CharacterCreation()
-			yield ActiveProgram.done.wait() #Wailt for charactor creation to be done
+			#yield ActiveProgram.done.wait() #Wailt for intro screen to be done
+			#sceneManager.switchtoScene('Charactor')
+			#ActiveProgram=pregame.CharacterCreation()
+			#yield ActiveProgram.done.wait() #Wailt for charactor creation to be done
 			
-			
+sceneManager.switchtoScene('GameWorld')
+ActiveProgram=GameWrap.GameWrap()
 		#Schedule the task.
-viztask.schedule( ZombieGame() )
+#viztask.schedule(ZombieGame())
 #print 'onto next'
 

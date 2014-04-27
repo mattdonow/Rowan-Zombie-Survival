@@ -99,7 +99,7 @@ Enter Your Charactor's name:
 
 		vizcam.PivotNavigate(center=[15,-10,0],
 
-                             distance=70,
+                            distance=70,
 
                              sensitivity=[1.0,1.0])
 

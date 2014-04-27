@@ -15,7 +15,7 @@
 import viz
 class SceneManager():
 	def __init__(self,startScene='Intro'):
-		self._sceneDict={'Intro':1, 'Charactor':2}
+		self._sceneDict={'Intro':1, 'Charactor':2,'GameWorld':3}
 		self._currentScene=startScene
 	
 	def switchtoScene(self,sceneName):
