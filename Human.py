@@ -36,17 +36,18 @@ class Human(Entity.Entity): # ? Inherits from Entity, represents the playable ch
         """
         Returns power of Human, summing human power and object power
         """
-        power=Stats.Range(self.min,self.min,self.max)
+        power=Stats.Range(0,0,1000)
 
         power.setCurrent(self.power+self.item.getPower())
         return power.getCurrent()
+
 
 
     def getToughness(self) :#? returns the toughness of the human
         """
         Returns toughness of Human, summing human toughness and object toughness
         """
-        toughness=Stats.Range(self.min,self.min,self.max)
+        toughness=Stats.Range(0,0,1000)
         toughness.setCurrent(self.toughness+self.item.getToughness())
 
         return toughness.getCurrent()
@@ -80,11 +81,12 @@ class Human(Entity.Entity): # ? Inherits from Entity, represents the playable ch
         """
         self.item=item
 
-    def __str__(self): # to print out human attributes
+    def playerStatusString(self): # to print out human attributes
         """
         Prints out human Attributes
         """
-        string= '%s have %s power, %s toughness in %s. Hitpoints Min:%s/C:%s/Max:%s' % (self.name, self.getPower(), self.getToughness(), self.locationName,self.hitpoints.getMin(),self.hitpoints.getCurrent(), self.hitpoints.getMax())
+        #string= '%s:\n %s power %s toughness in %s. Hitpoints Min:%s/C:%s/Max:%s' % (self.name, self.getPower(), self.getToughness(), self.locationName,self.hitpoints.getMin(),self.hitpoints.getCurrent(), self.hitpoints.getMax())
+        string='%s :\n Power: %s\n Toughness: %s\n Hitpoints: Min:%s/C:%s/Max:%s' % (self.name, self.getPower(), self.getToughness(),self.hitpoints.getMin(),self.hitpoints.getCurrent(), self.hitpoints.getMax())
         if self.item.getName()=='None':
             string=string
         else:

@@ -9,6 +9,13 @@
 
 
 import Human
+import vizproximity
+
+#Zombies
+zombies=[
+#roomName,Location,name, power, toughness,hitpoints, model
+['RH101',[1.5,0,4.5],'Krchnavek',3,7,10,'testchar.osgb'],
+]
 
 
 class Zombie(Human.Human):
@@ -16,15 +23,26 @@ class Zombie(Human.Human):
         """
         Creates a zombie. As of now, there is no difference to Human
         """
-        Human.Human.__init__(self,name,power,toughness,min,max,location,'None',model)
+        Human.Human.__init__(self,name=name,power=power,toughness=toughness,min=min,max=max,location=location,model=model)
+        
         
 
     
-
-
-
+class ZombieInit():
     
-
+  #create zombies
+    def __init__(self):
+        self.zombies={}
+        self.sensors=[]
+        self.zombiesCount=0
+        for roomName,location,name, power, toughness,hitpoints,model in zombies:
+            zombietmp=Zombie(name=name,location=location, power=power,toughness=toughness,min=0,max=hitpoints,model=model)
+            a=zombietmp.model
+            self.zombies[a]=zombietmp
+            mysensor=vizproximity.addBoundingSphereSensor(zombietmp.model)
+            self.sensors.append(mysensor)
+            
+        
 
 def main():
     pass

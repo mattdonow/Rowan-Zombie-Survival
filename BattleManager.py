@@ -6,8 +6,9 @@
 import random
 import viz
 from Stats import Range
+import GameWrap
 
-class BattleManager(viz.EventClass):
+class BattleManager():
     """
     Manages Conflict
     """
@@ -16,27 +17,25 @@ class BattleManager(viz.EventClass):
         """
         Initializes Battle Manager
         """
-        viz.EventClass.__init__(self)
+        #viz.EventClass.__init__(self)
         #Register callback with our event class
-        self.callback(viz.KEYDOWN_EVENT,self.onKeyDown)
+        #self.callback(viz.KEYDOWN_EVENT,self.onKeyDown)
         #Attributes
         self._human=human #Instance of Human
-        self._enemies=zombies # List of zombies
+        self._zombie=zombie # List of zombies
        
         self._fleed=False
 
 
-        # Pythonic case statement for menu
-        self._options={
-                '1' : self._attack,
-                '2' : self._flee,
-                '3' : self._checkPlayer,
-                '4' : self._suicide
-               }
-        self._continueBattle=True
-    def onKeyDown(self,key):
-        if key==' ':
-            self.attack()
+#        # Pythonic case statement for menu
+#        self._options={
+#                '1' : self._attack,
+#                '2' : self._flee,
+#                '3' : self._checkPlayer,
+#                '4' : self._suicide
+#               }
+#        self._continueBattle=True
+
 
     def battleLoop(self,room):
        pass
@@ -57,7 +56,7 @@ class BattleManager(viz.EventClass):
             hp=self._fight( self._enemyEngaged,self._human,)
             self._human.updateHitpoints(hp)
 
-    def _attack(self):
+    def attack(self):
         """
         performs the attack, and update the charactors hitpoints.
         """
@@ -65,14 +64,14 @@ class BattleManager(viz.EventClass):
         #Human Attack
         hp=self._fight(self._human, self._zombie)
         self._zombie.updateHitpoints(hp)
-        #print 'ATTACK!!!\n%s hit %s for %s' %(self._human.getName(),self._enemyEngaged.getName(),hp)
+        print 'ATTACK!!!\n%s hit %s for %s' %(self._human.getName(),self._zombie.getName(),hp)
 
 
 
         #Zombie engaged in combat turn
         hp=self._fight( self._zombie,self._human,)
         self._human.updateHitpoints(hp)
-        #print 'ATTACK!!!\n%s hit %s for %s' %(self._enemyEngaged.getName(),self._human.getName(),hp)
+        print 'ATTACK!!!\n%s hit %s for %s' %(self._zombie.getName(),self._human.getName(),hp)
 
 
 
@@ -80,19 +79,26 @@ class BattleManager(viz.EventClass):
         #if not(self._human.isAlive()==True and self._enemyEngaged.isAlive()==True):
            # self._continueBattle=False
 
+       # GameWrap.GameWrap.updateStats(m)
 
 
-
-    def _fight(self,attacker, attackee):
+    def _fight(self,attacker,attackee):
         """
         Calculates hitpoints based on Characters Power and Toughness
         """
         #
         attackerPower=attacker.getPower()
-
+        print str(attackerPower)
+        print str(attacker.getPower())
         attackerToughness=attacker.getToughness()
+        print str(attackerToughness)
+        
         attackeePower=attackee.getPower()
+        print str(attackeePower)
+        
+        
         attackeeToughness=attackee.getToughness()
+        print str(attackeeToughness)
 
         if attackerPower> 4*attackeeToughness:
             hp=8
@@ -109,11 +115,11 @@ class BattleManager(viz.EventClass):
 
 
 
-    def _checkPlayer(self):
-        """
-        Prints the player's stats to the screen
-        """
-        print self._human
+#    def _checkPlayer(self):
+#        """
+#        Prints the player's stats to the screen
+#        """
+#        print self._human
     def _suicide(self):
         """Allows the player to give up combat and end the game
         """

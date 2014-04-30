@@ -22,7 +22,7 @@ itemList=[
 ]
 
 class Item(Entity.Entity):#  ? Inherits from Entity. Objects that can be picked up by the player and equipped to increase power/toughness.
-    def __init__(self, name='Im Nameless',description='this is a item. Use it', power=0, toughness=0):
+    def __init__(self, name='None',description='this is a item. Use it', power=0, toughness=0):
         """
         Creates an item. use Item( name,description, power, toughness)
         """
