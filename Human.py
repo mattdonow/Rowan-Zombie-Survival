@@ -4,11 +4,12 @@
 
 #------------------------------------------------------------------------------
 import Entity
+import viz
 import Stats
 import Items
 
 class Human(Entity.Entity): # ? Inherits from Entity, represents the playable character.
-    def __init__(self,name='player',power=0,toughness=0,min=0,max=0,locationName='Atrium',item=Items.Item(name='None',description='', power=0, toughness=0)):
+    def __init__(self,name='player',power=0,toughness=0,min=0,max=0,location=[0,0,0],item=Items.Item(name='None',description='', power=0, toughness=0),model='test.osgb'):
         """
         Creates a Human Player. Use Human(name=,power,toughness,min,max,locationName,item)
 
@@ -18,10 +19,14 @@ class Human(Entity.Entity): # ? Inherits from Entity, represents the playable ch
         """
         creates Human name
         """
+        self.model=viz.add(model,scene=3)
+        
+        self.model.setScale(.01,.01,.01)
+        self.model.setPosition(location)
         self.power=power          #? the base power of the human
         self.toughness=toughness      #? the base toughness of the human
         self.hitpoints=Stats.Range(max,min,max)    #? instance of Range to hold the current number of hitpoints
-        self.locationName=locationName   #? the name of the location of the human
+        self.location=location   #? the name of the location of the human
         self.item=item          #? an instance of an item
         self.min=min
         self.max=max

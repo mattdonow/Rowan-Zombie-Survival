@@ -4,22 +4,25 @@
 
 #------------------------------------------------------------------------------
 import random
+import viz
 from Stats import Range
 
-class BattleManager():
+class BattleManager(viz.EventClass):
     """
     Manages Conflict
     """
 
-    def __init__(self,human,zombies):
+    def __init__(self,human,zombie):
         """
         Initializes Battle Manager
         """
+        viz.EventClass.__init__(self)
+        #Register callback with our event class
+        self.callback(viz.KEYDOWN_EVENT,self.onKeyDown)
         #Attributes
         self._human=human #Instance of Human
         self._enemies=zombies # List of zombies
-        self._enemyEngaged='' #Current enemy engaged in combat
-        self._room=''
+       
         self._fleed=False
 
 
@@ -31,49 +34,12 @@ class BattleManager():
                 '4' : self._suicide
                }
         self._continueBattle=True
-
+    def onKeyDown(self,key):
+        if key==' ':
+            self.attack()
 
     def battleLoop(self,room):
-        """
-        Loops through combat
-        """
-
-        self._room=room
-
-
-        #Loop through Menu
-        for x in  range(0,len(self._enemies)): #For each zombie in room
-            if self._human.isAlive()==True: #if human is still alive
-                self._continueBattle=True
-                self._enemyEngaged=self._enemies[x] #grab zombie
-                if self._enemyEngaged.isAlive()==True:
-                    self._prepareCombat()
-
-                while(self._continueBattle==True and self._human.isAlive()==True and self._enemyEngaged.isAlive()==True): #loop menu
-                    selection=self._prompt()
-                    self._options[selection]()
-        return self._fleed
-
-
-
-    def _prepareCombat(self):
-        """
-        Prints statement warning of combat
-        """
-        print """
--------------------------------------------------------
-You encounter a zombie!
-Prepare for combat!
-Zombie %s, Power %s, Tougness %s, HP min%s/C%s/Max%s
--------------------------------------------------------
-""" %(self._enemyEngaged.getName(),self._enemyEngaged.getPower(),self._enemyEngaged.getToughness(),self._enemyEngaged.hitpoints.getMin(),self._enemyEngaged.hitpoints.getCurrent(),self._enemyEngaged.hitpoints.getMax())
-#Sorry
-    def _prompt(self): #Menu Prompt
-        """
-        Prompts the user for combat actions
-        """
-        menu=' Select a Battle Option?:\n 1)Attack\n 2)Flee\n 3)Check Player\n 4)Suicide'
-        return raw_input(menu)
+       pass
 
     def _flee(self): #Flee Action
 
@@ -97,22 +63,22 @@ Zombie %s, Power %s, Tougness %s, HP min%s/C%s/Max%s
         """
 
         #Human Attack
-        hp=self._fight(self._human, self._enemyEngaged)
-        self._enemyEngaged.updateHitpoints(hp)
-        print 'ATTACK!!!\n%s hit %s for %s' %(self._human.getName(),self._enemyEngaged.getName(),hp)
+        hp=self._fight(self._human, self._zombie)
+        self._zombie.updateHitpoints(hp)
+        #print 'ATTACK!!!\n%s hit %s for %s' %(self._human.getName(),self._enemyEngaged.getName(),hp)
 
 
 
         #Zombie engaged in combat turn
-        hp=self._fight( self._enemyEngaged,self._human,)
+        hp=self._fight( self._zombie,self._human,)
         self._human.updateHitpoints(hp)
-        print 'ATTACK!!!\n%s hit %s for %s' %(self._enemyEngaged.getName(),self._human.getName(),hp)
+        #print 'ATTACK!!!\n%s hit %s for %s' %(self._enemyEngaged.getName(),self._human.getName(),hp)
 
 
 
         #Stop battle if when dead
-        if not(self._human.isAlive()==True and self._enemyEngaged.isAlive()==True):
-            self._continueBattle=False
+        #if not(self._human.isAlive()==True and self._enemyEngaged.isAlive()==True):
+           # self._continueBattle=False
 
 
 
