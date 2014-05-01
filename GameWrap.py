@@ -11,6 +11,7 @@
 ##Purpose: Wrapper for main Game
 ##Dependencies: 
 ##License:
+##ISSUES: Can only be in contact with 1 zombie at a time
 ######################################################################
 import viz
 import vizcam
@@ -34,7 +35,9 @@ class GameWrap(viz.EventClass):
 		#self.zombie=viz.add('testchar.osgb',scene=3)
 		self.myscene=viz.add('testscene.osgb',scene=3)
 		#self.testchar=viz.add('vcc_male.cfg',scene=3)
+		
 		self.zombies=Zombie.ZombieInit()
+		self.enemyEngaged=None
 		
 		
 		self.target = vizproximity.Target(viz.MainView)
@@ -45,7 +48,7 @@ class GameWrap(viz.EventClass):
 		#self.manager.addSensor(self.sensor)
 		self.manager.onEnter(None,self.EnterProximity)
 		self.manager.onExit(None,self.ExitProximity)
-		self.setupHealthStats(self.player)
+		self.player.setupHealthStats()
 		
 		
 		#testchar.setPosition(5,0,2)
@@ -104,51 +107,51 @@ class GameWrap(viz.EventClass):
 		b=e.sensor.getSource()
 		print b._node
 		print self.zombies.zombies[b._node].name
-		zombie=self.zombies.zombies[b._node]
-		self.setupHealthStats(zombie)
+		self.enemyEngaged=self.zombies.zombies[b._node]
 		
-		self.bm=BattleManager.BattleManager(self.player,zombie)
+		self.enemyEngaged.setupHealthStats()
+		
+		self.bm=BattleManager.BattleManager(self.player,self.enemyEngaged)
 		self.callback(viz.KEYDOWN_EVENT,self.onKeyDown)
 		
 	def ExitProximity(self,e):
 		print 'exited',e.sensor
-		a=e.sensor.getSourceObject()
-		b=e.sensor.getSource()
-		print b._node
-		print self.zombies.zombies[b._node].name
-		zombie=self.zombies.zombies[b._node]
-		self.removeHealthStats(zombie)
+		
+		
+		self.enemyEngaged.removeHealthStats()
 		self.callback(viz.KEYDOWN_EVENT,0) #remove callback when outdw of range
 		
-	def setupHealthStats(self,charactor):
-		
-		self.message=charactor.playerStatusString()
-		name=charactor.getName()
-		
-		
-		self.infobar[name]=vizinfo.add(self.message)
-		self.infobar[name]._group.parent(viz.SCREEN, 3)
-		self.infobar[name].title("Stats and Options")
-		self.infobar[name].drag(viz.ON)
-		
-	def updateHealthStats(self,charactor):
-		name=charactor.getName()
-		self.message=charactor.playerStatusString()
-		self.infobar[name].message(self.message)
-		
-	def removeHealthStats(self,charactor):
-		name=charactor.getName()
-		g=self.infobar[name]
-		g.remove()
+#	def setupHealthStats(self,charactor):
+#		
+#		self.message=charactor.playerStatusString()
+#		name=charactor.getName()
+#		
+#		
+#		self.infobar[name]=vizinfo.add(self.message)
+#		self.infobar[name]._group.parent(viz.SCREEN, 3)
+#		self.infobar[name].title("Stats and Options")
+#		self.infobar[name].drag(viz.ON)
+#		
+#	def updateHealthStats(self,charactor):
+#		name=charactor.getName()
+#		self.message=charactor.playerStatusString()
+#		self.infobar[name].message(self.message)
+#		
+#	def removeHealthStats(self,charactor):
+#		name=charactor.getName()
+#		g=self.infobar[name]
+#		g.remove()
 		
 	def onKeyDown(self,key):
 		if key==' ':
 			#gm=BattleManager.BattleManager(self.player,self.zombie)
-			self.bm.attack()
-			self.updateHealthStats(self.player)
+			self.bm.battleLoop()
+			self.player.updateHealthStats
+			self.enemyEngaged.updateHealthStats
+			
 			
 		
-	
+			
 		
 		
 		

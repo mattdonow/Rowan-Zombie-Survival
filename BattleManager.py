@@ -37,8 +37,18 @@ class BattleManager():
 #        self._continueBattle=True
 
 
-    def battleLoop(self,room):
-       pass
+    def battleLoop(self):
+       self.attack()
+       print str(self._zombie.isAlive())
+       if not self._human.isAlive():
+           self._human.kill()
+           print 'GAME Over'
+       if not self._zombie.isAlive():
+           
+           self._zombie.kill()
+            
+        
+       
 
     def _flee(self): #Flee Action
 

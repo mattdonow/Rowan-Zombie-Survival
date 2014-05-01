@@ -14,7 +14,9 @@ import vizproximity
 #Zombies
 zombies=[
 #roomName,Location,name, power, toughness,hitpoints, model
-['RH101',[1.5,0,4.5],'Krchnavek',3,7,10,'testchar.osgb'],
+['RH101',[1.5,0,4.5],'Krchnavek',1,1,10,'testchar.osgb'],
+['RH102',[4.5,0,4.5],'Leckakes',1,1,10,'testchar.osgb'],
+['RH102',[4.5+3,0,4.5],'Polikar',1,1,10,'testchar.osgb']
 ]
 
 

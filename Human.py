@@ -5,6 +5,7 @@
 #------------------------------------------------------------------------------
 import Entity
 import viz
+import vizinfo
 import Stats
 import Items
 
@@ -40,7 +41,7 @@ class Human(Entity.Entity): # ? Inherits from Entity, represents the playable ch
 
         power.setCurrent(self.power+self.item.getPower())
         return power.getCurrent()
-
+        
 
 
     def getToughness(self) :#? returns the toughness of the human
@@ -56,6 +57,9 @@ class Human(Entity.Entity): # ? Inherits from Entity, represents the playable ch
         Kills Human, sets HP=0
         """
         self.hitpoints.setCurrent(0)
+        self.model.remove()
+        self.removeHealthStats()
+        
 
 
     def isAlive(self): # ? checks whether the human is alive or dead
@@ -92,6 +96,28 @@ class Human(Entity.Entity): # ? Inherits from Entity, represents the playable ch
         else:
             string=string+' You have %s' %(self.item.getName())
         return string
+        
+    def setupHealthStats(self):
+
+		self.message=self.playerStatusString()
+		name=self.name
+		
+		
+		self.infobar=vizinfo.add(self.message)
+		self.infobar._group.parent(viz.SCREEN, 3)
+		self.infobar.title("Stats and Options")
+		self.infobar.drag(viz.ON)
+
+    def removeHealthStats(self):
+        name=self.name
+        g=self.infobar
+        g.remove()
+    
+    def updateHealthStats(self):
+        name=self.name
+        self.message=self.playerStatusString()
+        self.infobar.message(self.message)
+
 
 
 
