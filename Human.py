@@ -10,7 +10,7 @@ import Stats
 import Items
 
 class Human(Entity.Entity): # ? Inherits from Entity, represents the playable character.
-    def __init__(self,name='player',power=0,toughness=0,min=0,max=0,location=[0,0,0],item=Items.Item(name='None',description='', power=0, toughness=0),model='test.osgb'):
+    def __init__(self,name='player',power=0,toughness=0,min=0,max=0,location=[0,0,0],item=Items.Item(name='None', power=0, toughness=0,pos=[0,0,0],model='Shen_Urinal.OSGB'),model='test.osgb'):
         """
         Creates a Human Player. Use Human(name=,power,toughness,min,max,locationName,item)
 
@@ -94,7 +94,7 @@ class Human(Entity.Entity): # ? Inherits from Entity, represents the playable ch
         if self.item.getName()=='None':
             string=string
         else:
-            string=string+' You have %s' %(self.item.getName())
+            string=string+'\n You have %s' %(self.item.getName())
         return string
         
     def setupHealthStats(self):

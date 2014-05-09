@@ -6,42 +6,40 @@
 import Entity
 import Stats
 import random
+import viz
 
 
 #ITEMS
+
 itemList=[
-#Name, description,power,toughness
-['Duck Tape','A roll of tape. It is silver', 1,2],
-['Screw Driver', 'Flathead. Very small, but sharp',3,0],
-['MATLAB 5.3 for Dummies','OLD, but quite entertaining',0,0],
-['Shovel', 'A tool to move dirt',1,5],
-['Fire Extinguisher','Put out a fire... or Zombie',3,2],
-['LM741', 'From grandfathers toolbox',3,0], #Straight from digital II glossary
-['TI MSP430', 'Best $4.50 you will ever spend',0,0], #except they raised the price
-['Power Strip','for distributing your power',1,0]
+#Name,power,toughness, pos, model
+['Toilet', 1,2,[4,0,2],'Shen_Urinal.OSGB']
 ]
 
+
+
 class Item(Entity.Entity):#  ? Inherits from Entity. Objects that can be picked up by the player and equipped to increase power/toughness.
-    def __init__(self, name='None',description='this is a item. Use it', power=0, toughness=0):
+    def __init__(self, name='None', power=0, toughness=0,pos=[0,0,0],model='Shen_Urinal.OSGB'):
         """
         Creates an item. use Item( name,description, power, toughness)
         """
+        
         Entity.Entity.__init__(self,name)       #set name of object
         """
         Sets object Name
         """
 
-        self.description=description # ? a description of the object
+        #self.description=description # ? a description of the object
         self.stats=Stats.Stats(power, toughness)   # ? an instance of stats, holding the power/toughness of the object.
+        
+        self.items={}
+        self.model=viz.add(model,scene=3)
+        
+        self.model.setScale(.1/3,.1/3,.1/3)
+        self.model.setPosition(pos)
 
 
-        #Methods:
-    def getDescription(self): #? returns the description of the object
-        """
-        Returns description of the item
-        """
-        return self.description
-
+   
 
     def getPower(self):
         """
@@ -55,12 +53,7 @@ class Item(Entity.Entity):#  ? Inherits from Entity. Objects that can be picked 
         """
         return self.stats.getToughness()
 
-       # return self.description
-    def __str__(self): #? returns a string for printing out information about the item.
-        """
-        Prints description of item
-        """
-        return 'There is a  %s . %s. %s has power %s and toughness %s' % (self.name, self.description, self.name, self.stats.getPower(), self.stats.getToughness())
+
 
 
 class ItemGenerator: #?
@@ -68,7 +61,7 @@ class ItemGenerator: #?
         """
         Generates the items
         """
-        self.items={} # a dictionary of all the possible items in the game
+         # a dictionary of all the possible items in the game
         self.initialize()
        #  Methods:
 
@@ -77,10 +70,17 @@ class ItemGenerator: #?
         """
         Creates the items specified in itemList
         """
-        for name,description, power,toughness  in itemList:
-            tempItem=Item(name,description,power, toughness)
-            self.items[name]=tempItem
-
+        #['Toilet', 1,2,[4,0,2],'Shen_Urinal.OSGB']
+        self.items={}
+        for name, power,toughness,pos,model in itemList:
+            tempItem=Item(name=name, power=power, toughness=toughness,pos=pos,model=model)
+            a=tempItem.model
+            self.items[a]=tempItem
+            #tempItem.model=viz.add(model)
+            #self.items[name]=tempItem #Depreciated due to obtaining object via placing object in world
+            
+       
+            
 
        def getRandomItem(self): #? returns a random item in the game.
             """
