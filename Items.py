@@ -19,7 +19,7 @@ itemList=[
 
 
 class Item(Entity.Entity):#  ? Inherits from Entity. Objects that can be picked up by the player and equipped to increase power/toughness.
-    def __init__(self, name='None', power=0, toughness=0,pos=[0,0,0],model='Shen_Urinal.OSGB'):
+    def __init__(self, name='None', power=0, toughness=0,pos=[0,0,0],model='None'):
         """
         Creates an item. use Item( name,description, power, toughness)
         """
@@ -32,11 +32,13 @@ class Item(Entity.Entity):#  ? Inherits from Entity. Objects that can be picked 
         #self.description=description # ? a description of the object
         self.stats=Stats.Stats(power, toughness)   # ? an instance of stats, holding the power/toughness of the object.
         
-        self.items={}
-        self.model=viz.add(model,scene=3)
+        if model!='None':
+            self.model=viz.add(model,scene=3)
         
-        self.model.setScale(.1/3,.1/3,.1/3)
-        self.model.setPosition(pos)
+            self.model.setScale(.1/3,.1/3,.1/3)
+            self.model.setPosition(pos)
+            print 'Item init, model pos'
+            print self.model.getPosition()
 
 
    
@@ -62,9 +64,10 @@ class ItemGenerator: #?
         Generates the items
         """
          # a dictionary of all the possible items in the game
+        self.items={}
         self.initialize()
        #  Methods:
-
+        
 
        def initialize(self):
         """
@@ -72,9 +75,15 @@ class ItemGenerator: #?
         """
         #['Toilet', 1,2,[4,0,2],'Shen_Urinal.OSGB']
         self.items={}
+        ccc=0
         for name, power,toughness,pos,model in itemList:
+            ccc=ccc+1
+            print ccc
+            tempItem=Item(name=name, power=power, toughness=toughness,pos=pos,model=model)
             tempItem=Item(name=name, power=power, toughness=toughness,pos=pos,model=model)
             a=tempItem.model
+            print 'a model pos'
+            print a.getPosition()
             self.items[a]=tempItem
             #tempItem.model=viz.add(model)
             #self.items[name]=tempItem #Depreciated due to obtaining object via placing object in world
@@ -104,12 +113,7 @@ class ItemGenerator: #?
 
 def main():
     pass
-#Random Test
-##    rd='Random'
-##    gen=ItemGenerator()
-##    for x in range(1,500):
-##        a=gen.getItem(rd)
-##        print a.name
+
 
 
 if __name__ == '__main__':
