@@ -99,15 +99,15 @@ class Human(Entity.Entity): # ? Inherits from Entity, represents the playable ch
         
     def setupHealthStats(self):
 
-		self.message=self.playerStatusString()
-		name=self.name
-		
-		
-		self.infobar=vizinfo.add(self.message)
-		self.infobar._group.parent(viz.SCREEN, 3)
-		self.infobar.title("Stats and Options")
-		self.infobar.drag(viz.ON)
-
+        self.message=self.playerStatusString()
+        name=self.name
+        
+        
+        self.infobar=vizinfo.add(self.message)
+        
+        self.infobar._group.parent(viz.SCREEN, 3)
+        self.infobar.title("Stats and Options")
+        self.infobar.drag(viz.ON)
     def removeHealthStats(self):
         name=self.name
         g=self.infobar
