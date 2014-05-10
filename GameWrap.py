@@ -168,6 +168,10 @@ class GameWrap(viz.EventClass):
 		elif key=='p' or key=='P':
 			self.objectSelection=True
 			print 'Object Selection Enabled'
+			
+		elif key=='k' or key=='K':
+			win=False
+			self.done.send(data=win)
 ##OBJECT SELECTION			
 	def onMouseUp(self,button):
 		print 'mouse clicked'
