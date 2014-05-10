@@ -44,11 +44,11 @@ class WinLose(viz.EventClass):
 		else:
 			self.text='YOU LOSE. Oh well.'
 		self.text_2D_world = viz.addText(self.text,pos=[2, 2, 2],scene=4)
-		self.myButton = viz.addButtonLabel('Play Again',scene=4) #Add a button.
-	
+		#self.myButton = viz.addButtonLabel('Play Again',scene=4) #Add a button.
+		#Weird Issue resetting scenes , disabling fo rnow
 
-		self.myButton.setPosition(.5,.8) #Set its position. 
-		self.myButton.setScale(1,1) #Scale it. 
+		#self.myButton.setPosition(.5,.) #Set its position. 
+		#self.myButton.setScale(1,1) #Scale it. 
 		self.done=viztask.Signal()
 		self.myquit = viz.addButtonLabel('Quit Game',scene=4) #Add a button.
 	
