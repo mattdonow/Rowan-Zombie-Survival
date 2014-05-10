@@ -14,10 +14,11 @@ import vizproximity
 #Zombies
 zombies=[
 #roomName,Location,name, power, toughness,hitpoints, model
-['RH101',[1.5,0,4.5],'Krchnavek',1,1,10,'testchar.osgb'],
-['RH102',[4.5,0,4.5],'Leckakes',20,20,10,'testchar.osgb'],
-['RH102',[4.5+3,0,4.5],'Polikar',1,1,10,'testchar.osgb']
+['RH101',[8.29522, 0, 9.23450],'Krchnavek',1,1,10,'testchar.osgb'],
+['RH102',[14.83561, 0, 11.06440],'Leckakes',20,20,10,'testchar.osgb'],
+['RH102',[37.99508, 0, 7.48554],'Polikar',1,1,10,'testchar.osgb']
 ]
+
 
 
 class Zombie(Human.Human):
@@ -43,6 +44,7 @@ class ZombieInit():
             self.zombies[a]=zombietmp
             mysensor=vizproximity.addBoundingSphereSensor(zombietmp.model)
             self.sensors.append(mysensor)
+            self.zombiesCount=self.zombiesCount+1
             
         
 

@@ -13,9 +13,8 @@ import viz
 
 itemList=[
 #Name,power,toughness, pos, model
-['Toilet', 1,2,[4,0,2],'Shen_Urinal.OSGB']
+['toilet', 1,2,[8,0,2],'Shen_Urinal.OSGB']
 ]
-
 
 
 class Item(Entity.Entity):#  ? Inherits from Entity. Objects that can be picked up by the player and equipped to increase power/toughness.
@@ -85,6 +84,8 @@ class ItemGenerator: #?
             print 'a model pos'
             print a.getPosition()
             self.items[a]=tempItem
+            print 'adding object'
+            print a
             #tempItem.model=viz.add(model)
             #self.items[name]=tempItem #Depreciated due to obtaining object via placing object in world
             

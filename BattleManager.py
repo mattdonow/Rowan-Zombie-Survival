@@ -5,15 +5,16 @@
 #------------------------------------------------------------------------------
 import random
 import viz
+import viztask
 from Stats import Range
 import GameWrap
 
-class BattleManager():
+class BattleManager(viz.EventClass):
     """
     Manages Conflict
     """
 
-    def __init__(self,human,zombie):
+    def __init__(self,human,zombie,zombies,done):
         """
         Initializes Battle Manager
         """
@@ -23,8 +24,9 @@ class BattleManager():
         #Attributes
         self._human=human #Instance of Human
         self._zombie=zombie # List of zombies
-       
+        self.zombies=zombies
         self._fleed=False
+        self.done=done
 
 
 #        # Pythonic case statement for menu
@@ -42,10 +44,22 @@ class BattleManager():
        print str(self._zombie.isAlive())
        if not self._human.isAlive():
            self._human.kill()
+           win=False
+           self.done.send(data=win)
+           
            print 'GAME Over'
        if not self._zombie.isAlive():
            
            self._zombie.kill()
+           self.zombies.zombiesCount=self.zombies.zombiesCount-1
+           print 'zombiecount'
+           print self.zombies.zombiesCount
+           if self.zombies.zombiesCount<1:
+                    win=True
+                    self.done.send(data=win)
+               
+           
+           
             
         
        
@@ -135,6 +149,7 @@ class BattleManager():
         """
         self._human.kill()
         self._continueBattle=False
+
 
 
 

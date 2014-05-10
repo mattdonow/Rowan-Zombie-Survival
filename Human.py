@@ -22,8 +22,9 @@ class Human(Entity.Entity): # ? Inherits from Entity, represents the playable ch
         """
         self.model=viz.add(model,scene=3)
         
-        self.model.setScale(.01,.01,.01)
+        #self.model.setScale(.01,.01,.01)
         self.model.setPosition(location)
+        
         self.power=power          #? the base power of the human
         self.toughness=toughness      #? the base toughness of the human
         self.hitpoints=Stats.Range(max,min,max)    #? instance of Range to hold the current number of hitpoints

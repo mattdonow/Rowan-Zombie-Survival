@@ -23,21 +23,33 @@ import Human
 import Items
 import Zombie
 import BattleManager
+import viztask
 class GameWrap(viz.EventClass):
-	def __init__(self):
-		
-		
+	def __init__(self,playerName='Nameless'):
+		self.objectSelection=False #Allow object selection
 		viz.EventClass.__init__(self)
-		self.ActiveZombiesCount=0
-		item=Items.Item()
-		self.player=Human.Human('Matt',20,3,0,10,[0,0,0],item,'testchar.osgb')
-		self.infobar={}
-		#self.zombie=viz.add('testchar.osgb',scene=3)
-		self.myscene=viz.add('testscene.osgb',scene=3)
-		#self.testchar=viz.add('vcc_male.cfg',scene=3)
+		self.callback(viz.KEYDOWN_EVENT,self.onKeyDown)
+		self.callback(viz.MOUSEUP_EVENT,self.onMouseUp)
 		
+		self.done=viztask.Signal()
+		self.item=Items.Item()
+		self.player=Human.Human(playerName,1,1,0,10,[.2,6,0],self.item,'testchar.osgb')
+		viz.MainView.setPosition(.25,3,.25) #Not sure why neccesarry, but it fixes it, no sense rebreaking it 
+		self.infobar={}
+		self.objectSelction=False
+		#self.zombie=viz.add('testchar.osgb',scene=3)
+		#self.myscene=viz.add('testscene.osgb',scene=3)
+		self.myscene=viz.add('resources\\world.osgb',scene=3)
+		
+		
+		
+		#self.testchar=viz.add('vcc_male.cfg',scene=3)
+		self.items=Items.ItemGenerator()
 		self.zombies=Zombie.ZombieInit()
+		
 		self.enemyEngaged=None
+		self.enableBattle=False
+		
 		
 		
 		self.target = vizproximity.Target(viz.MainView)
@@ -49,6 +61,7 @@ class GameWrap(viz.EventClass):
 		self.manager.onEnter(None,self.EnterProximity)
 		self.manager.onExit(None,self.ExitProximity)
 		self.player.setupHealthStats()
+		self.player.infobar.translate(.6,.95)
 		
 		
 		#testchar.setPosition(5,0,2)
@@ -100,6 +113,8 @@ class GameWrap(viz.EventClass):
 
 		self.myscene.enable(viz.LIGHTING)
 	
+			
+	
 	def EnterProximity(self,e):
 		"""@args vizproximity.ProximityEvent()"""
 		print 'entered',e.sensor
@@ -111,15 +126,17 @@ class GameWrap(viz.EventClass):
 		
 		self.enemyEngaged.setupHealthStats()
 		
-		self.bm=BattleManager.BattleManager(self.player,self.enemyEngaged)
-		self.callback(viz.KEYDOWN_EVENT,self.onKeyDown)
-		
+		self.bm=BattleManager.BattleManager(self.player,self.enemyEngaged,self.zombies,self.done)
+		#self.callback(viz.KEYDOWN_EVENT,self.onKeyDown)
+		self.enableBattle=True
+	
 	def ExitProximity(self,e):
 		print 'exited',e.sensor
 		
 		
 		self.enemyEngaged.removeHealthStats()
-		self.callback(viz.KEYDOWN_EVENT,0) #remove callback when outdw of range
+		#self.callback(viz.KEYDOWN_EVENT,0) #remove callback when outdw of range
+		self.enableBattle=False
 		
 #	def setupHealthStats(self,charactor):
 #		
@@ -143,11 +160,76 @@ class GameWrap(viz.EventClass):
 #		g.remove()
 		
 	def onKeyDown(self,key):
-		if key==' ':
+		if key==' ' and self.enableBattle==True:
 			#gm=BattleManager.BattleManager(self.player,self.zombie)
 			self.bm.battleLoop()
-			self.player.updateHealthStats
-			self.enemyEngaged.updateHealthStats
+			self.player.updateHealthStats()
+			self.enemyEngaged.updateHealthStats()
+		elif key=='p' or key=='P':
+			self.objectSelection=True
+			print 'Object Selection Enabled'
+##OBJECT SELECTION			
+	def onMouseUp(self,button):
+		print 'mouse clicked'
+		if self.objectSelection==True:
+			if button==viz.MOUSEBUTTON_LEFT:
+				a=viz.pick(info=True)
+				print 'picked'
+				if (a.valid):
+					print 'valid'
+					print a.object
+					print 'object '+  str(a.object)
+					print 'parent ' +str(a.object.getParents())
+					try:
+						tmpobject=self.items.items[a.object]
+						allowPick=True
+						print 'allowpick=true'
+						
+					except:
+						allowPick=False
+						print 'key not in dic'
+						
+					if allowPick:
+						print 'allow pick'
+						#self.player.updateItem(tmpobject)
+						
+						#tmpobject.model.remove()
+						#self.player.updateHealthStats()
+					
+					
+		#a=e.sensor.getSourceObject()
+		#b=e.sensor.getSource()
+		#print b._node
+		#print self.zombies.zombies[b._node].name
+		#self.enemyEngaged=self.zombies.zombies[b._node]
+					
+					
+					
+					
+					
+				#else:
+					#print 'Item is not in list'
+					#print 'Object selection disabled'
+					#self.objectSelection=False
+					
+					
+##				tmpObject = viz.pick()
+##				print self.object!=tmpObject
+##				if (tmpObject.valid()) and (self.object!=tmpObject):
+##					for roomName,pos,name in Zombie.zombies:
+##						if tmpObject._node==name:
+##							self.player.updateItem(tmpItem)
+##							tmpObject.model.remove()
+##							self.select==False
+##							print 'object selection disabled'
+#				else:
+#					print 'object selection disabled'
+#						
+#					self.object=tmpObject
+				#else:
+					#self.object='None'
+	
+	
 			
 			
 		

@@ -124,7 +124,7 @@ Enter Your Charactor's name:
 		if obj==self.myButton2:
 			if state == viz.DOWN:
 				name=self.box.get()
-				Human.Human(name=name,power=10,toughness=10,min=0,max=20,locationName='Atrium',item=Items.Item(name='None',description='', power=0, toughness=0))
-				self.done.send()
+				playerName=name
+				self.done.send(data=playerName)
 
 
