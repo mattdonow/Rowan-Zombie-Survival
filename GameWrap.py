@@ -178,8 +178,7 @@ class GameWrap(viz.EventClass):
 				if (a.valid):
 					print 'valid'
 					print a.object
-					print 'object '+  str(a.object)
-					print 'parent ' +str(a.object.getParents())
+					
 					try:
 						tmpobject=self.items.items[a.object]
 						allowPick=True
@@ -191,10 +190,10 @@ class GameWrap(viz.EventClass):
 						
 					if allowPick:
 						print 'allow pick'
-						#self.player.updateItem(tmpobject)
+						self.player.updateItem(tmpobject)
 						
-						#tmpobject.model.remove()
-						#self.player.updateHealthStats()
+						tmpobject.model.remove()
+						self.player.updateHealthStats()
 					
 					
 		#a=e.sensor.getSourceObject()

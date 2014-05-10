@@ -13,7 +13,7 @@ import viz
 
 itemList=[
 #Name,power,toughness, pos, model
-['toilet', 1,2,[8,0,2],'Shen_Urinal.OSGB']
+['ECE Toobox', 1,2,[8,0,2],'resources\\toolbox.osgb']
 ]
 
 
@@ -34,7 +34,7 @@ class Item(Entity.Entity):#  ? Inherits from Entity. Objects that can be picked 
         if model!='None':
             self.model=viz.add(model,scene=3)
         
-            self.model.setScale(.1/3,.1/3,.1/3)
+            #self.model.setScale(.1/3,.1/3,.1/3)
             self.model.setPosition(pos)
             print 'Item init, model pos'
             print self.model.getPosition()
@@ -79,7 +79,7 @@ class ItemGenerator: #?
             ccc=ccc+1
             print ccc
             tempItem=Item(name=name, power=power, toughness=toughness,pos=pos,model=model)
-            tempItem=Item(name=name, power=power, toughness=toughness,pos=pos,model=model)
+            #tempItem=Item(name=name, power=power, toughness=toughness,pos=pos,model=model)
             a=tempItem.model
             print 'a model pos'
             print a.getPosition()
