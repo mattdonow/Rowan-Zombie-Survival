@@ -1,17 +1,9 @@
 ﻿# Rowan Zombie Survival was a project for my upper level elective, intro to Virtual Reality. The code is hosted here. Due to size limits, the 3D assets are not on github. Feel free to email me for them
  This projects requires WorldViz Vizard VR to run. http://www.worldviz.com/vizard-virtual-reality-software
  
-_____                      _____           _   _
-| __  |___ _ _ _ ___ ___   |__   |___ _____| |_|_|___
-|    -| . | | | | .'|   |  |   __| . |     | . | | -_|
-|__|__|___|_____|__,|_|_|  |_____|___|_|_|_|___|_|___|
-
-
- _____             _         _    _____     _   _
-|   __|_ _ ___ _ _|_|_ _ ___| |  |   __|_ _|_|_| |___
-|__   | | |  _| | | | | | .'| |  |  |  | | | | . | -_|
-|_____|___|_|  \_/|_|\_/|__,|_|  |_____|___|_|___|___|
-
+******************************************************* 
+*************ROWAN ZOMBIE SURVIVAL GAME ***************
+******************************************************* 
 
 
 May  2004: Electrical and Computer Engineering Students work on a new
